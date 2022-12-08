@@ -46,10 +46,10 @@ contract Lottery is Ownable {
     // Optimize this
     function betMany(uint256 times) public {
         require(times > 0);
-        while (times > 0) {
-            bet();
-            --times;
-        }
+        ownerPool += betFee * times;
+        prizePool += betPrice * times;
+        _slots.push(msg.sender);
+        paymentToken.transferFrom(msg.sender, address(this), (betPrice + betFee) * times);
     }
 
     function bet() public {
@@ -77,9 +77,20 @@ contract Lottery is Ownable {
         randomNumber = block.difficulty;
     }
 
-    function prizeWithdraw(uint256 amount) public onlyOwner {
+    function ownerWithdraw(uint256 amount) public onlyOwner {
         require(amount <= ownerPool, "Not enough fees collected");
         ownerPool -= amount;
         paymentToken.transfer(msg.sender, amount);
+    }
+
+    function prizeWithdraw(uint256 amount) public {
+        require(amount <= prize[msg.sender], "Not enough prize");
+        prize[msg.sender] -= amount;
+        paymentToken.transfer(msg.sender, amount);
+    }
+
+    function returnTokens(uint256 amount) public {
+        paymentToken.burnFrom(msg.sender, amount);
+        payable(msg.sender).transfer(amount / purchaseRatio);
     }
 }
