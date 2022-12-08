@@ -1,5 +1,8 @@
 {
   "name": "Lesson6",
+  "workspaces": [
+    "packages/frontend"
+  ],
   "packageManager": "yarn@3.2.4",
   "devDependencies": {
     "@ethersproject/abi": "^5.4.7",
@@ -26,6 +29,7 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.0",
+    "daisyui": "^2.42.1",
     "dotenv": "^16.0.3"
   }
 }
