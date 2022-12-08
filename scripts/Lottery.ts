@@ -31,7 +31,7 @@ async function initAccounts() {
 }
 
 async function initContracts() {
-  const lotteryContractFactory = new Lottery__factory(accounts[0]);
+  const lotteryContractFactory = await new Lottery__factory(accounts[0]);
   contract = await lotteryContractFactory.deploy(
     "LotteryToken",
     "LT0",
