@@ -1,6 +1,7 @@
 import React from "react";
 
 import ContractAddressForm from "./ContractAddressForm";
+import ConnectedContract from "./ConnectedContract";
 
 interface State {
   page: number;
@@ -8,7 +9,7 @@ interface State {
 }
 
 const initialState = {
-  page: 1,
+  page: 2,
   contractAddress: null,
 };
 
@@ -37,9 +38,12 @@ const ContractUI: React.FC<{}> = () => {
           }
         />
       );
+      break;
+    case 2:
+      content = <ConnectedContract contractAddress={state.contractAddress} />;
   }
   return (
-    <main className="h-[calc(100vh-156px)] mx-auto w-full max-w-[1080px]">
+    <main className="min-h-[calc(100vh-156px)] mx-auto w-full max-w-[1080px] pb-12">
       {content}
     </main>
   );
