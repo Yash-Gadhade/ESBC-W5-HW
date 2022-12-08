@@ -17,8 +17,8 @@ const BET_FEE = 0.2;
 const TOKEN_RATIO = 1;
 
 async function main() {
-  await initContracts();
   await initAccounts();
+  await initContracts();
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -199,10 +199,14 @@ async function openBets(duration: string) {
 }
 
 async function displayBalance(index: string) {
-  const balanceBN = await token.balanceOf(accounts[Number(index)].address);
+  const balanceBN = await ethers.provider.getBalance(
+    accounts[Number(index)].address
+  );
   const balance = ethers.utils.formatEther(balanceBN);
   console.log(
-    `The account of address ${accounts[Number(index)].address} has ${balance} ETH\n`
+    `The account of address ${
+      accounts[Number(index)].address
+    } has ${balance} ETH\n`
   );
 }
 
@@ -215,14 +219,12 @@ async function buyTokens(index: string, amount: string) {
 }
 
 async function displayTokenBalance(index: string) {
-  const balanceBN = await ethers.provider.getBalance(
-    accounts[Number(index)].address
-  );
+  const balanceBN = await token.balanceOf(accounts[Number(index)].address);
   const balance = ethers.utils.formatEther(balanceBN);
   console.log(
     `The account of address ${
       accounts[Number(index)].address
-    } has ${balance} ETH\n`
+    } has ${balance} tokens\n`
   );
 }
 
